@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aksara Jepang Interaktif</title>
+    <title>Belajar Aksara Jepang</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -110,7 +110,7 @@
             { char: 'く', romaji: 'ku', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('hiragana', 'く') },
             { char: 'ke', romaji: 'ke', strokeOrder: '1. Garis horizontal\n2. Garis vertikal ke bawah\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'ke') },
             { char: 'こ', romaji: 'ko', strokeOrder: '1. Garis horizontal\n2. Garis horizontal di bawahnya', gifUrl: getGifUrl('hiragana', 'ko') },
-            { char: 'さ', romaji: 'sa', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'sa') },
+            { char: 'sa', romaji: 'sa', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'sa') },
             { char: 'し', romaji: 'shi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'し') },
             { char: 'す', romaji: 'su', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'す') },
             { char: 'せ', romaji: 'se', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'se') },
@@ -135,9 +135,9 @@
             { char: 'む', romaji: 'mu', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'mu') },
             { char: 'め', romaji: 'me', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'me') },
             { char: 'も', romaji: 'mo', strokeOrder: '1. Garis horizontal\n2. Garis horizontal\n3. Garis vertikal melengkung\n4. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'mo') },
-            { char: 'や', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis melengkung ke bawah\n3. Garis vertikal', gifUrl: getGifUrl('hiragana', 'ya') },
-            { char: 'ゆ', romaji: 'yu', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'yu') },
-            { char: 'よ', romaji: 'yo', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'yo') },
+            { char: 'ya', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis melengkung ke bawah\n3. Garis vertikal', gifUrl: getGifUrl('hiragana', 'ya') },
+            { char: 'yu', romaji: 'yu', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'yu') },
+            { char: 'yo', romaji: 'yo', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'yo') },
             { char: 'ら', romaji: 'ra', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ra') },
             { char: 'ri', romaji: 'ri', strokeOrder: '1. Garis vertikal melengkung\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ri') },
             { char: 'る', romaji: 'ru', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ru') },
@@ -477,8 +477,6 @@
                 const sampleWidth = canvas.width; // Assuming sample and user canvas have same dimensions
                 const sampleHeight = canvas.height;
 
-                // const snapRadius = 80; // Increased radius to search for correct pixels
-                // const snapStrength = 0.8; // Strength to pull the stroke towards the correct path
                 const snapRadius = 100; // Increased radius to search for correct pixels
                 const snapStrength = 1; // Strength to pull the stroke towards the correct path
                 
