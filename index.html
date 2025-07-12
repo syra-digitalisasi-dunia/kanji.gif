@@ -70,6 +70,10 @@
             <button id="clear-btn" class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out">
                 Hapus
             </button>
+            <button id="check-btn" class="mt-2 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">
+                Periksa Tulisan
+            </button>
+            <div id="feedback-message" class="mt-4 text-center text-sm"></div>
         </div>
     </main>
 
@@ -109,7 +113,7 @@
             { char: 'さ', romaji: 'sa', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'さ') },
             { char: 'し', romaji: 'shi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'し') },
             { char: 'す', romaji: 'su', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'す') },
-            { char: 'せ', romaji: 'se', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'せ') },
+            { char: 'せ', romaji: 'se', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'se') },
             { char: 'そ', romaji: 'so', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'そ') },
             { char: 'た', romaji: 'ta', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis horizontal\n4. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'た') },
             { char: 'ち', romaji: 'chi', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ち') },
@@ -131,7 +135,7 @@
             { char: 'む', romaji: 'mu', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'む') },
             { char: 'め', romaji: 'me', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'め') },
             { char: 'も', romaji: 'mo', strokeOrder: '1. Garis horizontal\n2. Garis horizontal\n3. Garis vertikal melengkung\n4. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'も') },
-            { char: 'や', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis melengkung ke bawah\n3. Garis vertikal', gifUrl: getGifUrl('hiragana', 'や') },
+            { char: 'や', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis melengkung ke bawah\n3. Garis vertikal', gifUrl: getGifUrl('hiragana', 'ya') },
             { char: 'ゆ', romaji: 'yu', strokeOrder: '1. Garis melengkung ke bawah\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ゆ') },
             { char: 'よ', romaji: 'yo', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'よ') },
             { char: 'ら', romaji: 'ra', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ら') },
@@ -268,6 +272,8 @@
         const katakanaBtn = document.getElementById('katakana-btn');
         const kanjiBtn = document.getElementById('kanji-btn');
         const progressDisplay = document.getElementById('progress-display'); // New element for progress
+        const checkBtn = document.getElementById('check-btn'); // New button
+        const feedbackMessage = document.getElementById('feedback-message'); // New div for messages
 
         // Initialize canvas settings
         ctx.lineCap = 'round';
@@ -279,22 +285,78 @@
         ctx.shadowOffsetY = 1; 
 
         // Function to draw Japanese character on canvas with transparency
-        const drawJapaneseCharacterOnCanvas = (char) => {
-            if (!ctx || canvas.width === 0 || canvas.height === 0) return; // Ensure canvas is ready
+        const drawJapaneseCharacterOnCanvas = (char, targetCtx, targetCanvas) => {
+            if (!targetCtx || targetCanvas.width === 0 || targetCanvas.height === 0) return; // Ensure canvas is ready
 
-            ctx.save(); // Save current canvas state
-            ctx.globalAlpha = 0.15; // Set transparency (e.g., 15%)
-            ctx.font = 'bold ' + (canvas.width * 0.8) + 'px Arial, sans-serif'; // Adjust font size dynamically
-            ctx.fillStyle = '#d1d5db'; // Set color (light gray)
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            targetCtx.save(); // Save current canvas state
+            targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height); // Clear before drawing sample
+            targetCtx.globalAlpha = 0.15; // Set transparency (e.g., 15%)
+            targetCtx.font = 'bold ' + (targetCanvas.width * 0.8) + 'px Arial, sans-serif'; // Adjust font size dynamically
+            targetCtx.fillStyle = '#d1d5db'; // Set color (light gray)
+            targetCtx.textAlign = 'center';
+            targetCtx.textBaseline = 'middle';
 
             // Calculate position to center the text on the canvas
-            const x = canvas.width / 2;
-            const y = canvas.height / 2;
+            const x = targetCanvas.width / 2;
+            const y = targetCanvas.height / 2;
 
-            ctx.fillText(char, x, y);
-            ctx.restore(); // Restore canvas state (resets globalAlpha, etc.)
+            targetCtx.fillText(char, x, y);
+            targetCtx.restore(); // Restore canvas state (resets globalAlpha, etc.)
+        };
+
+        // Function to compare user's drawing with sample
+        const checkWriting = () => {
+            const currentCharacterData = characters[currentIndex];
+            if (!currentCharacterData) {
+                feedbackMessage.textContent = 'Tidak ada karakter untuk diperiksa.';
+                feedbackMessage.className = 'mt-4 text-red-600 font-semibold';
+                return;
+            }
+
+            // Create an offscreen canvas to draw the perfect sample character
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Draw the transparent sample character onto the temporary canvas
+            drawJapaneseCharacterOnCanvas(currentCharacterData.char, tempCtx, tempCanvas);
+
+            // Get pixel data from both canvases
+            const userImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const sampleImageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+
+            const userPixels = userImageData.data;
+            const samplePixels = sampleImageData.data;
+
+            let totalSampleOpaquePixels = 0;
+            let matchingOpaquePixels = 0;
+            const alphaThreshold = 50; // Minimum alpha value to consider a pixel "opaque"
+
+            for (let i = 0; i < samplePixels.length; i += 4) {
+                const sampleAlpha = samplePixels[i + 3]; // Alpha channel
+                const userAlpha = userPixels[i + 3];
+
+                if (sampleAlpha > alphaThreshold) {
+                    totalSampleOpaquePixels++;
+                    if (userAlpha > alphaThreshold) {
+                        matchingOpaquePixels++;
+                    }
+                }
+            }
+
+            const matchPercentage = totalSampleOpaquePixels > 0 ? (matchingOpaquePixels / totalSampleOpaquePixels) * 100 : 0;
+
+            if (matchPercentage >= 70) { // Threshold for "correct"
+                feedbackMessage.textContent = `Bagus sekali! Tulisan Anda ${matchPercentage.toFixed(2)}% cocok.`;
+                feedbackMessage.className = 'mt-4 text-green-600 font-semibold';
+            } else if (matchPercentage >= 40) {
+                feedbackMessage.textContent = `Cukup baik, tapi bisa lebih baik lagi. Kecocokan: ${matchPercentage.toFixed(2)}%.`;
+                feedbackMessage.className = 'mt-4 text-orange-600 font-semibold';
+            } else {
+                feedbackMessage.textContent = `Coba lagi. Tulisan Anda ${matchPercentage.toFixed(2)}% cocok.`;
+                feedbackMessage.className = 'mt-4 text-red-600 font-semibold';
+            }
         };
 
         // Function to render the current character data
@@ -309,9 +371,7 @@
                 // Update progress display
                 progressDisplay.textContent = `${currentIndex + 1} / ${characters.length}`;
                 // Clear canvas when character changes
-                clearCanvas();
-                // Draw Japanese character on canvas after clearing
-                drawJapaneseCharacterOnCanvas(currentCharacterData.char);
+                clearCanvas(); // clearCanvas will now also draw the transparent sample
             } else {
                 // If no character data, ensure displays are clear
                 romajiDisplay.textContent = 'Romaji: N/A'; 
@@ -322,6 +382,9 @@
                 progressDisplay.textContent = '0 / 0';
                 clearCanvas(); // Clear canvas even if no character data
             }
+            // Clear feedback message on character change
+            feedbackMessage.textContent = '';
+            feedbackMessage.className = '';
         };
 
         // Canvas drawing functions
@@ -402,8 +465,11 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             // Redraw transparent Japanese character after clearing
             if (characters[currentIndex]) {
-                drawJapaneseCharacterOnCanvas(characters[currentIndex].char);
+                drawJapaneseCharacterOnCanvas(characters[currentIndex].char, ctx, canvas);
             }
+            // Clear feedback message on clear
+            feedbackMessage.textContent = '';
+            feedbackMessage.className = '';
         };
 
         // Navigation functions
@@ -465,6 +531,7 @@
             hiraganaBtn.addEventListener('click', () => setScript('hiragana'));
             katakanaBtn.addEventListener('click', () => setScript('katakana'));
             kanjiBtn.addEventListener('click', () => setScript('kanji'));
+            checkBtn.addEventListener('click', checkWriting); // Add event listener for check button
 
             // Handle window resize for canvas
             window.addEventListener('resize', () => {
@@ -498,7 +565,7 @@
 
                 // Redraw transparent Japanese character after resize
                 if (characters[currentIndex]) {
-                    drawJapaneseCharacterOnCanvas(characters[currentIndex].char);
+                    drawJapaneseCharacterOnCanvas(characters[currentIndex].char, ctx, canvas);
                 }
             });
 
