@@ -116,8 +116,8 @@
             { char: 'せ', romaji: 'se', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'se') },
             { char: 'そ', romaji: 'so', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'so') },
             { char: 'ta', romaji: 'ta', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis horizontal\n4. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'ta') },
-            { char: 'ち', romaji: 'chi', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'chi') },
-            { char: 'つ', romaji: 'tsu', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('hiragana', 'tsu') },
+            { char: 'chi', romaji: 'chi', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'chi') },
+            { char: 'tsu', romaji: 'tsu', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('hiragana', 'tsu') },
             { char: 'te', romaji: 'te', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'te') },
             { char: 'to', romaji: 'to', strokeOrder: '1. Garis pendek\n2. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'to') },
             { char: 'na', romaji: 'na', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis pendek\n4. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'na') },
@@ -454,7 +454,7 @@
         };
 
         const draw = (e) => {
-            e.preventDefault(); // Prevent scrolling on touch devices
+            // e.preventDefault(); // Removed to allow touch scrolling on mobile
             if (!isDrawing) return;
             let { x, y } = getEventPos(e); // Use let because x, y will be modified
 
