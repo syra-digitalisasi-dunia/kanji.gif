@@ -101,7 +101,7 @@
         // Data karakter Hiragana (All basic 46)
         const hiraganaCharacters = [
             { char: 'あ', romaji: 'a', strokeOrder: '1. Kiri atas ke kanan bawah\n2. Melengkung ke kanan bawah\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'あ') },
-            { char: 'い', romaji: 'i', strokeOrder: '1. Kiri atas ke kanan bawah\2. Sedikit melengkung ke kanan', gifUrl: getGifUrl('hiragana', 'い') },
+            { char: 'い', romaji: 'i', strokeOrder: '1. Kiri atas ke kanan bawah\n2. Sedikit melengkung ke kanan', gifUrl: getGifUrl('hiragana', 'い') },
             { char: 'う', romaji: 'u', strokeOrder: '1. Garis pendek horizontal\n2. Melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'う') },
             { char: 'え', romaji: 'e', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis pendek horizontal', gifUrl: getGifUrl('hiragana', 'え') },
             { char: 'お', romaji: 'o', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil di kanan', gifUrl: getGifUrl('hiragana', 'お') },
@@ -114,7 +114,7 @@
             { char: 'し', romaji: 'shi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'し') },
             { char: 'す', romaji: 'su', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'す') },
             { char: 'せ', romaji: 'se', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'se') },
-            { char: 'そ', romaji: 'so', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'そ') },
+            { char: 'そ', romaji: 'so', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'so') },
             { char: 'た', romaji: 'ta', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis horizontal\n4. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'ta') },
             { char: 'ち', romaji: 'chi', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'chi') },
             { char: 'つ', romaji: 'tsu', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('hiragana', 'tsu') },
@@ -173,7 +173,7 @@
             { char: 'ナ', romaji: 'na', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis pendek\n4. Garis melengkung ke bawah', gifUrl: getGifUrl('katakana', 'ナ') },
             { char: 'ニ', romaji: 'ni', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung', gifUrl: getGifUrl('katakana', 'ニ') },
             { char: 'ヌ', romaji: 'nu', strokeOrder: '1. Garis horizontal\n2. Garis melengkung ke bawah\n3. Garis pendek', gifUrl: getGifUrl('katakana', 'ヌ') },
-            { char: 'ネ', romaji: 'ne', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis pendek', gifUrl: getGifUrl('katakana', 'ネ') },
+            { char: 'ネ', romaji: 'ne', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis pendek', gifUrl: getGifUrl('katakana', 'ne') },
             { char: 'ノ', romaji: 'no', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('katakana', 'ノ') },
             { char: 'ハ', romaji: 'ha', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('katakana', 'ハ') },
             { char: 'ヒ', romaji: 'hi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('katakana', 'ヒ') },
@@ -216,9 +216,9 @@
             { char: '金', romaji: 'kin, kane', meaning: 'Emas, Uang', strokeOrder: '1. Garis miring ke kiri\n2. Garis miring ke kanan\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis miring ke kiri\n7. Garis miring ke kanan', gifUrl: getGifUrl('kanji', '金') },
             { char: '語', romaji: 'go', meaning: 'Bahasa', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis horizontal\n8. Garis vertikal\n9. Garis miring ke kiri\n10. Garis miring ke kanan\n11. Garis horizontal\n12. Garis vertikal\n13. Garis miring ke kiri\n14. Garis miring ke kanan', gifUrl: getGifUrl('kanji', '語') },
             { char: '名', romaji: 'mei, na', meaning: 'Nama', strokeOrder: '1. Garis miring ke kiri\n2. Garis miring ke kanan\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis miring ke kiri', gifUrl: getGifUrl('kanji', '名') },
-            { char: '前', romaji: 'zen, mae', meaning: 'Depan, Sebelum', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis miring ke kiri\n7. Garis miring ke kanan\n8. Garis vertikal\n9. Garis horizontal', gifUrl: getGifUrl('kanji', '前') },
+            { char: '前', romaji: 'zen, mae', meaning: 'Depan, Sebelum', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis miring ke kiri\n8. Garis miring ke kanan\n9. Garis horizontal\n10. Garis vertikal\n11. Garis miring ke kiri\n12. Garis miring ke kanan\n13. Garis horizontal', gifUrl: getGifUrl('kanji', '前') },
             { char: '国', romaji: 'koku, kuni', meaning: 'Negara', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis horizontal\n8. Garis vertikal', gifUrl: getGifUrl('kanji', '国') },
-            { char: '時', romaji: 'ji, toki', meaning: 'Waktu', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis miring ke kiri\n8. Garis miring ke kanan\n9. Garis horizontal\n10. Garis vertikal', gifUrl: getGifUrl('kanji', '時') },
+            { char: '時', romaji: 'ji, toki', meaning: 'Waktu', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis miring ke kiri\n8. Garis miring ke kanan\n9. Garis horizontal\n10. Garis vertikal\n11. Garis miring ke kiri\n12. Garis miring ke kanan\n13. Garis horizontal', gifUrl: getGifUrl('kanji', '時') },
             { char: '間', romaji: 'kan, aida', meaning: 'Antara', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis horizontal\n8. Garis vertikal', gifUrl: getGifUrl('kanji', '間') },
             { char: '話', romaji: 'wa, hana(su)', meaning: 'Bicara', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis miring ke kiri\n8. Garis miring ke kanan\n9. Garis horizontal\n10. Garis vertikal\n11. Garis miring ke kiri\n12. Garis miring ke kanan\n13. Garis horizontal', gifUrl: getGifUrl('kanji', '話') },
             { char: '聞', romaji: 'bun, ki(ku)', meaning: 'Dengar', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis vertikal\n7. Garis miring ke kiri\n8. Garis miring ke kanan\n9. Garis horizontal\n10. Garis vertikal\n11. Garis miring ke kiri\n12. Garis miring ke kanan\n13. Garis horizontal', gifUrl: getGifUrl('kanji', '聞') },
@@ -315,45 +315,56 @@
             }
 
             // Create an offscreen canvas to draw the perfect sample character with FULL OPACITY
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = canvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
+            const tempCanvasSample = document.createElement('canvas');
+            tempCanvasSample.width = canvas.width;
+            tempCanvasSample.height = canvas.height;
+            const tempCtxSample = tempCanvasSample.getContext('2d');
 
             // Draw the sample character onto the temporary canvas with full opacity (alpha = 1)
-            drawJapaneseCharacterOnCanvas(currentCharacterData.char, tempCtx, tempCanvas, 1); // Pass 1 for full opacity
+            drawJapaneseCharacterOnCanvas(currentCharacterData.char, tempCtxSample, tempCanvasSample, 1); // Pass 1 for full opacity
 
             // Get pixel data from both canvases
             const userImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const sampleImageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            const sampleImageData = tempCtxSample.getImageData(0, 0, tempCanvasSample.width, tempCanvasSample.height);
 
             const userPixels = userImageData.data;
             const samplePixels = sampleImageData.data;
 
-            let totalSampleOpaquePixels = 0;
-            let matchingOpaquePixels = 0;
-            const alphaThreshold = 50; // Minimum alpha value to consider a pixel "opaque"
+            let totalSampleTargetPixels = 0; // Pixels in the sample that should be drawn
+            let matchingUserPixels = 0; // Pixels drawn by user that match sample target pixels
+
+            // Define a threshold for how "dark" a user pixel needs to be to be considered a stroke
+            // This needs to be significantly higher than the transparent guide's alpha (which is ~38)
+            const userStrokeAlphaThreshold = 100; // Adjusted to be higher than transparent guide's alpha
+
+            // Define a threshold for how "opaque" a sample pixel needs to be to be considered part of the character
+            const sampleCharacterAlphaThreshold = 50; // The sample is drawn with alpha 1 (255), so anything > 0 should work.
 
             for (let i = 0; i < samplePixels.length; i += 4) {
-                const sampleAlpha = samplePixels[i + 3]; // Alpha channel
-                const userAlpha = userPixels[i + 3];
+                const sampleAlpha = samplePixels[i + 3]; // Alpha channel of sample
+                const userAlpha = userPixels[i + 3];     // Alpha channel of user's canvas
 
-                // Only count sample pixels that are actually part of the character (alpha > 0)
-                // And check if the user's pixel also has significant alpha
-                if (sampleAlpha > 0) { // Check if sample pixel has any content
-                    totalSampleOpaquePixels++;
-                    if (userAlpha > alphaThreshold) { // Check if user's pixel is "opaque enough"
-                        matchingOpaquePixels++;
+                // Check if the sample pixel is part of the character (not background)
+                if (sampleAlpha > sampleCharacterAlphaThreshold) {
+                    totalSampleTargetPixels++; // Count this as a target pixel from the sample
+
+                    // Check if the corresponding user pixel is a significant stroke (not just the transparent guide)
+                    if (userAlpha > userStrokeAlphaThreshold) {
+                        matchingUserPixels++; // Count this as a matching pixel
                     }
                 }
             }
 
-            const matchPercentage = totalSampleOpaquePixels > 0 ? (matchingOpaquePixels / totalSampleOpaquePixels) * 100 : 0;
+            const matchPercentage = totalSampleTargetPixels > 0 ? (matchingUserPixels / totalSampleTargetPixels) * 100 : 0;
 
-            if (matchPercentage >= 70) { // Threshold for "correct"
+            // Adjust thresholds for feedback to be more forgiving
+            const goodMatchThreshold = 60; 
+            const decentMatchThreshold = 30; 
+
+            if (matchPercentage >= goodMatchThreshold) { 
                 feedbackMessage.textContent = `Bagus sekali! Tulisan Anda ${matchPercentage.toFixed(2)}% cocok.`;
                 feedbackMessage.className = 'mt-4 text-green-600 font-semibold';
-            } else if (matchPercentage >= 40) {
+            } else if (matchPercentage >= decentMatchThreshold) {
                 feedbackMessage.textContent = `Cukup baik, tapi bisa lebih baik lagi. Kecocokan: ${matchPercentage.toFixed(2)}%.`;
                 feedbackMessage.className = 'mt-4 text-orange-600 font-semibold';
             } else {
