@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aksara Jepang Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the canvas to ensure it's responsive and centered */
+        canvas {
+            background-color: #f9fafb; /* Light gray background for canvas */
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        /* Ensure font Inter is used */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 font-sans text-gray-800 p-4 flex flex-col items-center">
+
+    <!-- Header Aplikasi -->
+    <header class="w-full max-w-2xl text-center mb-8">
+        <h1 class="text-4xl font-extrabold text-blue-700 mb-2">Aksara Jepang Interaktif</h1>
+        <p class="text-lg text-gray-600">Latih goresan Hiragana, Katakana, dan Kanji Anda!</p>
+    </header>
+
+    <!-- Navigasi Script -->
+    <nav class="mb-8 flex space-x-4 bg-white p-2 rounded-full shadow-lg">
+        <button id="hiragana-btn" class="px-6 py-3 rounded-full font-semibold transition duration-300 ease-in-out bg-blue-600 text-white shadow-md">
+            Hiragana
+        </button>
+        <button id="katakana-btn" class="px-6 py-3 rounded-full font-semibold transition duration-300 ease-in-out bg-gray-200 text-gray-700 hover:bg-blue-100">
+            Katakana
+        </button>
+        <button id="kanji-btn" class="px-6 py-3 rounded-full font-semibold transition duration-300 ease-in-out bg-gray-200 text-gray-700 hover:bg-blue-100">
+            Kanji
+        </button>
+    </nav>
+
+    <!-- Area Latihan -->
+    <main class="w-full max-w-md">
+        <div class="flex flex-col items-center p-4 bg-white rounded-lg shadow-md w-full mx-auto">
+            <!-- Display GIF -->
+            <div class="mb-4 w-32 h-32 flex items-center justify-center bg-gray-100 rounded-md overflow-hidden">
+                <img id="character-gif" src="" alt="Stroke order GIF" class="w-full h-full object-contain"
+                     onerror="this.onerror=null;this.src='https://placehold.co/150x150/e0e0e0/000000?text=GIF+Tidak+Ada';">
+            </div>
+
+            <!-- Romaji display (now back outside the canvas) -->
+            <div id="romaji-display" class="text-xl text-gray-600 mb-2"></div>
+            
+            <div id="meaning-display" class="text-lg text-gray-700 mb-4"></div>
+            <div id="stroke-order-display" class="text-sm text-gray-500 mb-4 p-2 bg-gray-50 rounded-md w-full">
+                <h4 class="font-semibold mb-1">Urutan Goresan:</h4>
+                <pre id="stroke-order-text" class="whitespace-pre-wrap"></pre>
+            </div>
+            <div class="relative w-full aspect-square border-2 border-gray-300 rounded-md overflow-hidden bg-gray-50">
+                <canvas id="writingCanvas"></canvas>
+                <!-- Garis bantu untuk kanvas -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div class="absolute w-full h-px bg-gray-300 transform -translate-y-1/2"></div>
+                    <div class="absolute h-full w-px bg-gray-300 transform -translate-x-1/2"></div>
+                </div>
+            </div>
+            <button id="clear-btn" class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-300 ease-in-out">
+                Hapus
+            </button>
+        </div>
+    </main>
+
+    <!-- Navigasi Karakter -->
+    <div class="mt-6 flex space-x-4">
+        <button id="prev-btn" class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            Sebelumnya
+        </button>
+        <button id="next-btn" class="px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out flex items-center justify-center">
+            Berikutnya
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
+
+    <script>
+        // Helper function to generate GIF URLs from the GitHub repository
+        const getGifUrl = (scriptType, char) => {
+            const encodedChar = encodeURIComponent(char);
+            // Using raw.githubusercontent.com for direct access to files
+            return `https://raw.githubusercontent.com/syra-digitalisasi-dunia/kanji.gif/master/${scriptType}/gif/150x150/${encodedChar}.gif`;
+        };
+
+        // Data karakter
+        const hiraganaCharacters = [
+            { char: 'あ', romaji: 'a', strokeOrder: '1. Kiri atas ke kanan bawah\n2. Melengkung ke kanan bawah\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'あ') },
+            { char: 'い', romaji: 'i', strokeOrder: '1. Kiri atas ke kanan bawah\n2. Sedikit melengkung ke kanan', gifUrl: getGifUrl('hiragana', 'い') },
+            { char: 'う', romaji: 'u', strokeOrder: '1. Garis pendek horizontal\n2. Melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'う') },
+            { char: 'え', romaji: 'e', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis pendek horizontal', gifUrl: getGifUrl('hiragana', 'え') },
+            { char: 'お', romaji: 'o', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Lingkaran kecil di kanan', gifUrl: getGifUrl('hiragana', 'お') },
+            { char: 'か', romaji: 'ka', strokeOrder: '1. Garis horizontal ke kanan\n2. Garis vertikal ke bawah\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'か') },
+            { char: 'き', romaji: 'ki', strokeOrder: '1. Garis horizontal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'き') },
+            { char: 'く', romaji: 'ku', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('hiragana', 'く') },
+            { char: 'け', romaji: 'ke', strokeOrder: '1. Garis horizontal\n2. Garis vertikal ke bawah\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'け') },
+            { char: 'こ', romaji: 'ko', strokeOrder: '1. Garis horizontal\n2. Garis horizontal di bawahnya', gifUrl: getGifUrl('hiragana', 'ko') },
+        ];
+
+        const katakanaCharacters = [
+            { char: 'ア', romaji: 'a', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'ア') },
+            { char: 'イ', romaji: 'i', strokeOrder: '1. Garis miring ke kanan bawah\n2. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'イ') },
+            { char: 'ウ', romaji: 'u', strokeOrder: '1. Garis pendek horizontal\n2. Melengkung ke bawah\n3. Garis pendek di kanan', gifUrl: getGifUrl('katakana', 'ウ') },
+            { char: 'エ', romaji: 'e', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis horizontal', gifUrl: getGifUrl('katakana', 'エ') },
+            { char: 'オ', romaji: 'o', strokeOrder: '1. Garis horizontal\n2. Garis vertikal melengkung\n3. Garis pendek di kanan', gifUrl: getGifUrl('katakana', 'オ') },
+            { char: 'カ', romaji: 'ka', strokeOrder: '1. Garis horizontal\n2. Garis vertikal ke bawah\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'カ') },
+            { char: 'キ', romaji: 'ki', strokeOrder: '1. Garis horizontal\n2. Garis horizontal\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'キ') },
+            { char: 'ク', romaji: 'ku', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('katakana', 'ク') },
+            { char: 'ケ', romaji: 'ke', strokeOrder: '1. Garis horizontal\n2. Garis vertikal ke bawah\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'ケ') },
+            { char: 'コ', romaji: 'ko', strokeOrder: '1. Garis horizontal\n2. Garis vertikal ke bawah\n3. Garis horizontal', gifUrl: getGifUrl('katakana', 'コ') },
+        ];
+
+        const kanjiCharacters = [
+            { char: '日', romaji: 'nichi, hi', meaning: 'Matahari, Hari', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis horizontal', gifUrl: getGifUrl('kanji', '日') },
+            { char: '月', romaji: 'getsu, tsuki', meaning: 'Bulan', strokeOrder: '1. Garis vertikal\n2. Garis horizontal\n3. Garis horizontal\n4. Garis vertikal', gifUrl: getGifUrl('kanji', '月') },
+            { char: '山', romaji: 'san, yama', meaning: 'Gunung', strokeOrder: '1. Garis vertikal\n2. Garis vertikal\n3. Garis vertikal', gifUrl: getGifUrl('kanji', '山') },
+            { char: '川', romaji: 'sen, kawa', meaning: 'Sungai', strokeOrder: '1. Garis vertikal\n2. Garis vertikal\n3. Garis vertikal', gifUrl: getGifUrl('kanji', '川') },
+            { char: '人', romaji: 'jin, hito', meaning: 'Orang', strokeOrder: '1. Garis miring ke kiri\n2. Garis miring ke kanan', gifUrl: getGifUrl('kanji', '人') },
+            { char: '木', romaji: 'boku, ki', meaning: 'Pohon', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis miring ke kiri\n4. Garis miring ke kanan', gifUrl: getGifUrl('kanji', '木') },
+            { char: '本', romaji: 'hon, moto', meaning: 'Buku, Asal', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis horizontal\n4. Garis miring ke kiri\n5. Garis miring ke kanan', gifUrl: getGifUrl('kanji', '本') },
+            { char: '大', romaji: 'dai, oo', meaning: 'Besar', strokeOrder: '1. Garis horizontal\n2. Garis miring ke kiri\n3. Garis miring ke kanan', gifUrl: getGifUrl('kanji', '大') },
+            { char: '学', romaji: 'gaku, mana(bu)', meaning: 'Belajar', strokeOrder: '1. Garis miring ke kanan\n2. Garis miring ke kiri\n3. Garis horizontal\n4. Garis vertikal\n5. Garis horizontal\n6. Garis miring ke kiri\n7. Garis miring ke kanan\n8. Garis miring ke kiri', gifUrl: getGifUrl('kanji', '学') },
+            { char: '校', romaji: 'kou', meaning: 'Sekolah', strokeOrder: '1. Garis horizontal\n2. Garis vertikal\n3. Garis horizontal\n4. Garis miring ke kiri\n5. Garis miring ke kanan\n6. Garis horizontal\n7. Garis vertikal\n8. Garis horizontal\n9. Garis vertikal\n10. Garis horizontal', gifUrl: getGifUrl('kanji', '校') },
+        ];
+
+        let currentScript = 'hiragana';
+        let currentIndex = 0;
+        let characters = hiraganaCharacters;
+
+        const canvas = document.getElementById('writingCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        // Variables for brush effect (speed-based thickness)
+        let lastX = 0;
+        let lastY = 0;
+        let lastTime = 0;
+        const minLineWidth = 3; // Minimum line thickness
+        const maxLineWidth = 15; // Maximum line thickness
+        const maxSpeed = 10; // Max speed (pixels/ms) to influence line width. Adjust as needed.
+
+        // DOM Elements
+        const romajiDisplay = document.getElementById('romaji-display'); 
+        const meaningDisplay = document.getElementById('meaning-display');
+        const strokeOrderText = document.getElementById('stroke-order-text');
+        const characterGif = document.getElementById('character-gif');
+        const clearBtn = document.getElementById('clear-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const hiraganaBtn = document.getElementById('hiragana-btn');
+        const katakanaBtn = document.getElementById('katakana-btn');
+        const kanjiBtn = document.getElementById('kanji-btn');
+
+        // Initialize canvas settings
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#333';
+        // Shadow properties for "brush mode" effect
+        ctx.shadowBlur = 2; 
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)'; 
+        ctx.shadowOffsetX = 1; 
+        ctx.shadowOffsetY = 1; 
+
+        // Function to draw Japanese character on canvas with transparency
+        const drawJapaneseCharacterOnCanvas = (char) => {
+            if (!ctx || canvas.width === 0 || canvas.height === 0) return; // Ensure canvas is ready
+
+            ctx.save(); // Save current canvas state
+            ctx.globalAlpha = 0.15; // Set transparency (e.g., 15%)
+            ctx.font = 'bold ' + (canvas.width * 0.8) + 'px Arial, sans-serif'; // Adjust font size dynamically
+            ctx.fillStyle = '#d1d5db'; // Set color (light gray)
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Calculate position to center the text on the canvas
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+
+            ctx.fillText(char, x, y);
+            ctx.restore(); // Restore canvas state (resets globalAlpha, etc.)
+        };
+
+        // Function to render the current character data
+        const renderCharacter = () => {
+            const currentCharacterData = characters[currentIndex];
+            if (currentCharacterData) {
+                romajiDisplay.textContent = `Romaji: ${currentCharacterData.romaji}`; 
+                meaningDisplay.textContent = currentCharacterData.meaning ? `Arti: ${currentCharacterData.meaning}` : '';
+                strokeOrderText.textContent = currentCharacterData.strokeOrder;
+                characterGif.src = currentCharacterData.gifUrl;
+                characterGif.alt = `Stroke order for ${currentCharacterData.char}`;
+                // Clear canvas when character changes
+                clearCanvas();
+                // Draw Japanese character on canvas after clearing
+                drawJapaneseCharacterOnCanvas(currentCharacterData.char);
+            } else {
+                // If no character data, ensure displays are clear
+                romajiDisplay.textContent = 'Romaji: N/A'; 
+                meaningDisplay.textContent = '';
+                strokeOrderText.textContent = 'Tidak ada data urutan goresan.';
+                characterGif.src = 'https://placehold.co/150x150/e0e0e0/000000?text=GIF+Tidak+Ada';
+                characterGif.alt = 'No GIF available';
+                clearCanvas(); // Clear canvas even if no character data
+            }
+        };
+
+        // Canvas drawing functions
+        const getEventPos = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return {
+                    x: e.touches[0].clientX - rect.left,
+                    y: e.touches[0].clientY - rect.top
+                };
+            }
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        };
+
+        const startDrawing = (e) => {
+            e.preventDefault(); // Prevent scrolling on touch devices
+            isDrawing = true;
+            const { x, y } = getEventPos(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            lastX = x;
+            lastY = y;
+            lastTime = performance.now(); // Get high-resolution time
+            ctx.lineWidth = maxLineWidth; // Start with max thickness for the first point
+        };
+
+        const draw = (e) => {
+            e.preventDefault(); // Prevent scrolling on touch devices
+            if (!isDrawing) return;
+            const { x, y } = getEventPos(e);
+            const currentTime = performance.now();
+
+            // Calculate distance moved
+            const dx = x - lastX;
+            const dy = y - lastY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Calculate time elapsed
+            const timeElapsed = currentTime - lastTime;
+
+            let speed = 0;
+            if (timeElapsed > 0) { // Avoid division by zero
+                speed = distance / timeElapsed;
+            }
+
+            // Map speed to line width (slower speed = thicker line)
+            // Clamp speed to maxSpeed to prevent extremely thin lines
+            const clampedSpeed = Math.min(speed, maxSpeed);
+            const normalizedSpeed = clampedSpeed / maxSpeed; // 0 to 1
+            
+            // Invert the normalized speed: 0 (slow) -> 1 (fast) becomes 1 (slow) -> 0 (fast)
+            const invertedNormalizedSpeed = 1 - normalizedSpeed;
+
+            // Map to line width range
+            ctx.lineWidth = minLineWidth + (invertedNormalizedSpeed * (maxLineWidth - minLineWidth));
+            
+            // Ensure line width is within bounds
+            ctx.lineWidth = Math.max(minLineWidth, Math.min(ctx.lineWidth, maxLineWidth));
+
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            lastX = x;
+            lastY = y;
+            lastTime = currentTime;
+        };
+
+        const endDrawing = () => {
+            isDrawing = false;
+            ctx.closePath();
+        };
+
+        const clearCanvas = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Redraw transparent Japanese character after clearing
+            if (characters[currentIndex]) {
+                drawJapaneseCharacterOnCanvas(characters[currentIndex].char);
+            }
+        };
+
+        // Navigation functions
+        const nextCharacter = () => {
+            currentIndex = (currentIndex + 1) % characters.length;
+            renderCharacter();
+        };
+
+        const prevCharacter = () => {
+            currentIndex = (currentIndex - 1 + characters.length) % characters.length;
+            renderCharacter();
+        };
+
+        // Script selection function
+        const setScript = (scriptName) => {
+            currentScript = scriptName;
+            currentIndex = 0; // Reset index when script changes
+            hiraganaBtn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+            hiraganaBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-blue-100');
+            katakanaBtn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+            katakanaBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-blue-100');
+            kanjiBtn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+            kanjiBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-blue-100');
+
+            if (scriptName === 'hiragana') {
+                characters = hiraganaCharacters;
+                hiraganaBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            } else if (scriptName === 'katakana') {
+                characters = katakanaCharacters;
+                katakanaBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            } else if (scriptName === 'kanji') {
+                characters = kanjiCharacters;
+                kanjiBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            }
+            renderCharacter();
+        };
+
+        // Event Listeners
+        window.onload = function() {
+            // Set initial canvas size
+            const parent = canvas.parentElement;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientWidth;
+
+            // Canvas drawing event listeners
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', endDrawing);
+            canvas.addEventListener('mouseleave', endDrawing); // End drawing if mouse leaves canvas
+
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', draw, { passive: false });
+            canvas.addEventListener('touchend', endDrawing);
+
+            // Button event listeners
+            clearBtn.addEventListener('click', clearCanvas);
+            prevBtn.addEventListener('click', prevCharacter);
+            nextBtn.addEventListener('click', nextCharacter);
+            hiraganaBtn.addEventListener('click', () => setScript('hiragana'));
+            katakanaBtn.addEventListener('click', () => setScript('katakana'));
+            kanjiBtn.addEventListener('click', () => setScript('kanji'));
+
+            // Handle window resize for canvas
+            window.addEventListener('resize', () => {
+                let imageData = null;
+                // Only try to get image data if canvas has valid dimensions
+                if (canvas.width > 0 && canvas.height > 0) {
+                    imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                }
+
+                const parent = canvas.parentElement;
+                // Update canvas dimensions first
+                canvas.width = parent.clientWidth;
+                canvas.height = parent.clientWidth;
+
+                // Restore image data only if it was successfully retrieved
+                if (imageData) {
+                    ctx.putImageData(imageData, 0, 0);
+                } else {
+                    // If no image data was saved (e.g., initial load or zero width), clear the canvas
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+
+                // Reapply canvas styles after resize
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#333';
+                // Reapply shadow properties after resize
+                ctx.shadowBlur = 2;
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+                ctx.shadowOffsetX = 1;
+                ctx.shadowOffsetY = 1;
+
+                // Redraw transparent Japanese character after resize
+                if (characters[currentIndex]) {
+                    drawJapaneseCharacterOnCanvas(characters[currentIndex].char);
+                }
+            });
+
+            // Initial render
+            setScript('hiragana'); // Start with Hiragana
+        };
+    </script>
+</body>
+</html>
