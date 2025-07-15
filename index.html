@@ -24,7 +24,8 @@
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
-            /* Allow vertical scrolling, handled by Tailwind's overflow-y-auto */
+            /* height: 100vh; */ /* Removed to allow content to dictate height for scrolling */
+            /* overflow: hidden; */ /* Removed to allow body to scroll */
         }
         html {
             height: 100%; /* Ensure html also takes full height */
@@ -63,9 +64,9 @@
         </button>
     </nav>
 
-    <!-- Area Latihan -->
+    <!-- Area Latihan - Now this main element will be scrollable -->
     <main class="w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-2 sm:px-4 flex flex-col items-center flex-grow min-h-0">
-        <div class="flex flex-col items-center p-2 sm:p-4 bg-white rounded-lg shadow-md w-full mx-auto flex-grow min-h-0">
+        <div class="flex flex-col items-center p-2 sm:p-4 bg-white rounded-lg shadow-md w-full mx-auto">
             <!-- Display GIF -->
             <div class="mb-1 sm:mb-4 w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-md overflow-hidden">
                 <img id="character-gif" src="" alt="Stroke order GIF" class="w-full h-full object-contain"
@@ -135,7 +136,7 @@
             { char: 'こ', romaji: 'ko', strokeOrder: '1. Garis horizontal\\n2. Garis horizontal di bawahnya', gifUrl: getGifUrl('hiragana', 'ko') },
             { char: 'さ', romaji: 'sa', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'sa') },
             { char: 'し', romaji: 'shi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'し') },
-            { char: 'す', romaji: 'su', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'सु') },
+            { char: 'す', romaji: 'su', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil di tengah', gifUrl: getGifUrl('hiragana', 'す') },
             { char: 'せ', romaji: 'se', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'せ') },
             { char: 'そ', romaji: 'so', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'そ') },
             { char: 'た', romaji: 'ta', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal\\n3. Garis horizontal\\n4. Garis miring ke kanan bawah', gifUrl: getGifUrl('hiragana', 'ta') },
@@ -149,26 +150,26 @@
             { char: 'ね', romaji: 'ne', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'ね') },
             { char: 'の', romaji: 'no', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'の') },
             { char: 'は', romaji: 'ha', strokeOrder: '1. Garis vertikal\\n2. Garis horizontal\\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'は') },
-            { char: 'ひ', romaji: 'hi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ひ') },
-            { char: 'ふ', romaji: 'fu', strokeOrder: '1. Garis horizontal\\n2. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ふ') },
-            { char: 'へ', romaji: 'he', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'へ') },
-            { char: 'ほ', romaji: 'ho', strokeOrder: '1. Garis vertikal\\n2. Garis horizontal\\n3. Garis horizontal\\n4. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ほ') },
-            { char: 'ま', romaji: 'ma', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal\\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ま') },
-            { char: 'み', romaji: 'mi', strokeOrder: '1. Garis vertikal melengkung\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'み') },
-            { char: 'む', romaji: 'mu', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'む') },
-            { char: 'め', romaji: 'me', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'め') },
-            { char: 'も', romaji: 'mo', strokeOrder: '1. Garis horizontal\\n2. Garis horizontal\\n3. Garis vertikal melengkung\\n4. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'も') },
-            { char: 'や', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\\n2. Garis melengkung ke bawah\\n3. Garis vertikal', gifUrl: getGifUrl('hiragana', 'や') },
-            { char: 'ゆ', romaji: 'yu', strokeOrder: '1. Garis melengkung ke bawah\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ゆ') },
-            { char: 'よ', romaji: 'yo', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'よ') },
-            { char: 'ら', romaji: 'ra', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ら') },
-            { char: 'り', romaji: 'ri', strokeOrder: '1. Garis vertikal melengkung\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'り') },
-            { char: 'る', romaji: 'ru', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'る') },
-            { char: 'れ', romaji: 're', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'れ') },
-            { char: 'ろ', romaji: 'ro', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ろ') },
-            { char: 'わ', romaji: 'wa', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'わ') },
-            { char: 'を', romaji: 'wo', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal\\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'を') },
-            { char: 'ん', romaji: 'n', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ん') },
+            { char: 'hi', romaji: 'hi', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ひ') },
+            { char: 'fu', romaji: 'fu', strokeOrder: '1. Garis horizontal\\n2. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ふ') },
+            { char: 'he', romaji: 'he', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'へ') },
+            { char: 'ho', romaji: 'ho', strokeOrder: '1. Garis vertikal\\n2. Garis horizontal\\n3. Garis horizontal\\n4. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ほ') },
+            { char: 'ma', romaji: 'ma', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal\\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'ま') },
+            { char: 'mi', romaji: 'mi', strokeOrder: '1. Garis vertikal melengkung\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'み') },
+            { char: 'mu', romaji: 'mu', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'む') },
+            { char: 'me', romaji: 'me', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'め') },
+            { char: 'mo', romaji: 'mo', strokeOrder: '1. Garis horizontal\\n2. Garis horizontal\\n3. Garis vertikal melengkung\\n4. Lingkaran kecil', gifUrl: getGifUrl('hiragana', 'も') },
+            { char: 'ya', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\\n2. Garis melengkung ke bawah\\n3. Garis vertikal', gifUrl: getGifUrl('hiragana', 'や') },
+            { char: 'yu', romaji: 'yu', strokeOrder: '1. Garis melengkung ke bawah\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'यु') },
+            { char: 'yo', romaji: 'yo', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'よ') },
+            { char: 'ra', romaji: 'ra', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'ら') },
+            { char: 'ri', romaji: 'ri', strokeOrder: '1. Garis vertikal melengkung\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'रि') },
+            { char: 'ru', romaji: 'ru', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'रु') },
+            { char: 're', romaji: 're', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'रे') },
+            { char: 'ro', romaji: 'ro', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'रो') },
+            { char: 'wa', romaji: 'wa', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('hiragana', 'वा') },
+            { char: 'wo', romaji: 'wo', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal\\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'वो') },
+            { char: 'n', romaji: 'n', strokeOrder: '1. Garis melengkung ke bawah', gifUrl: getGifUrl('hiragana', 'न') },
         ];
 
         // Data karakter Katakana (All basic 46)
@@ -179,7 +180,7 @@
             { char: 'エ', romaji: 'e', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Garis horizontal', gifUrl: getGifUrl('katakana', 'エ') },
             { char: 'オ', romaji: 'o', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Garis pendek di kanan', gifUrl: getGifUrl('katakana', 'オ') },
             { char: 'カ', romaji: 'ka', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal ke bawah\\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'カ') },
-            { char: 'キ', romaji: 'ki', strokeOrder: '1. Garis horizontal\\n2. Garis horizontal\\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'K') },
+            { char: 'キ', romaji: 'ki', strokeOrder: '1. Garis horizontal\\n2. Garis horizontal\\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'キ') },
             { char: 'ク', romaji: 'ku', strokeOrder: '1. Garis melengkung ke kanan bawah', gifUrl: getGifUrl('katakana', 'ク') },
             { char: 'ケ', romaji: 'ke', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal ke bawah\\n3. Garis miring ke kanan bawah', gifUrl: getGifUrl('katakana', 'ケ') },
             { char: 'コ', romaji: 'ko', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal ke bawah\\n3. Garis horizontal', gifUrl: getGifUrl('katakana', 'コ') },
@@ -206,7 +207,7 @@
             { char: 'マ', romaji: 'ma', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal\\n3. Garis melengkung ke bawah', gifUrl: getGifUrl('katakana', 'マ') },
             { char: 'ミ', romaji: 'mi', strokeOrder: '1. Garis vertikal melengkung\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('katakana', 'ミ') },
             { char: 'ム', romaji: 'mu', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Garis pendek', gifUrl: getGifUrl('katakana', 'ム') },
-            { char: 'メ', romaji: 'me', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Garis pendek', gifUrl: getGifUrl('katakana', 'メ') },
+            { char: 'メ', romaji: 'me', strokeOrder: '1. Garis horizontal\\n2. Garis vertikal melengkung\\n3. Garis pendek', gifUrl: getGifUrl('katakana', 'मे') },
             { char: 'モ', romaji: 'mo', strokeOrder: '1. Garis horizontal\\n2. Garis horizontal\\n3. Garis vertikal melengkung\\n4. Garis pendek', gifUrl: getGifUrl('katakana', 'モ') },
             { char: 'ヤ', romaji: 'ya', strokeOrder: '1. Garis melengkung ke bawah\\n2. Garis melengkung ke bawah\\n3. Garis vertikal', gifUrl: getGifUrl('katakana', 'ヤ') },
             { char: 'ユ', romaji: 'yu', strokeOrder: '1. Garis melengkung ke bawah\\n2. Garis vertikal melengkung', gifUrl: getGifUrl('katakana', 'ユ') },
